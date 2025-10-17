@@ -1,5 +1,5 @@
 /**
- * 組件導出文件
+ * 組件導出文件 - V2.0.0
  * 統一管理所有可重用組件的導出
  */
 
@@ -8,3 +8,6 @@ export { ScoreSlider } from './ScoreSlider';
 export { ViewModeSelector } from './ViewModeSelector';
 export { UserSelector } from './UserSelector';
 export { StatsDisplay } from './StatsDisplay';
+export { Banner } from './Banner';
+export { LocationFilter } from './LocationFilter';
+export { EmailSearch } from './EmailSearch';
