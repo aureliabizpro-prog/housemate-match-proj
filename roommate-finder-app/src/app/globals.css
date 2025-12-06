@@ -24,3 +24,9 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* 中文斷行優化 */
+.break-keep {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}

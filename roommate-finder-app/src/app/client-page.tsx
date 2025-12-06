@@ -155,9 +155,9 @@ export default function ClientPageContent() {
           >
             {slides.map((slide, index) => (
               <div key={index} className="bg-gradient-to-r from-orange-100/70 to-green-100/70 backdrop-blur-md p-8 text-center min-h-64 flex flex-col justify-center items-center">
-                <h2 className="text-3xl md:text-2xl font-bold text-gray-800 mb-3 leading-tight drop-shadow-sm">{slide.title}</h2>
-                <p className="text-lg md:text-base text-gray-700 mb-3 leading-relaxed drop-shadow-sm">{slide.subtitle}</p>
-                <p className="text-base md:text-sm text-gray-600 whitespace-pre-line mb-5 leading-relaxed drop-shadow-sm">{slide.desc}</p>
+                <h2 className="text-3xl md:text-2xl font-bold text-gray-800 mb-3 leading-tight drop-shadow-sm break-keep">{slide.title}</h2>
+                <p className="text-lg md:text-base text-gray-700 mb-3 leading-relaxed drop-shadow-sm break-keep">{slide.subtitle}</p>
+                <p className="text-base md:text-sm text-gray-600 whitespace-pre-line mb-5 leading-relaxed drop-shadow-sm break-keep">{slide.desc}</p>
                 {slide.showCTA && (
                   <a
                     href="https://forms.gle/iuFj9gA97zhynTKm6"
@@ -254,13 +254,13 @@ export default function ClientPageContent() {
 
         {/* CTA for Survey */}
         <div className="mt-8 bg-orange-50 rounded-xl p-6 text-center shadow-sm border border-orange-100">
-          <h3 className="text-2xl md:text-xl font-bold text-gray-800 mb-3">已有 {allUsers.length} 人在找室友</h3>
-          <p className="text-base md:text-sm text-gray-600 mb-6 md:mb-5 leading-relaxed">你也想找到理想的合租夥伴嗎？立即填寫問卷，讓系統為你推薦！</p>
+          <h3 className="text-2xl md:text-xl font-bold text-gray-800 mb-3 break-keep">已有 {allUsers.length} 人在找室友</h3>
+          <p className="text-base md:text-sm text-gray-600 mb-6 md:mb-5 leading-relaxed break-keep">你也想找到理想的合租夥伴嗎？立即填寫問卷，讓系統為你推薦！</p>
           <a
             href="https://forms.gle/iuFj9gA97zhynTKm6"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block px-8 py-3 md:px-6 md:py-2.5 bg-orange-300 text-gray-800 rounded-full font-semibold hover:bg-orange-400 transition-all shadow-sm text-base md:text-sm"
+            className="inline-block px-8 py-3 md:px-6 md:py-2.5 bg-orange-300 text-gray-800 rounded-full font-semibold hover:bg-orange-400 transition-all shadow-sm text-base md:text-sm whitespace-nowrap"
           >
             立即填寫問卷
           </a>
@@ -289,7 +289,7 @@ export default function ClientPageContent() {
                 href="https://forms.gle/iuFj9gA97zhynTKm6"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full px-6 py-3.5 md:py-3 bg-orange-400 text-white rounded-full font-semibold hover:bg-orange-500 transition-all text-center text-base md:text-sm"
+                className="block w-full px-6 py-3.5 md:py-3 bg-orange-300 text-gray-800 rounded-full font-semibold hover:bg-orange-400 transition-all text-center text-base md:text-sm"
               >
                 立即填寫配對問卷
               </a>
