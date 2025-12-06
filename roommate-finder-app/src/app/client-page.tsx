@@ -164,6 +164,7 @@ export default function ClientPageContent() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-block px-6 py-2.5 bg-orange-300 text-gray-800 rounded-full font-semibold hover:bg-orange-400 transition-all shadow-md text-sm"
+                    style={{ whiteSpace: 'nowrap' }}
                   >
                     立即填寫配對問卷
                   </a>
@@ -260,7 +261,8 @@ export default function ClientPageContent() {
             href="https://forms.gle/iuFj9gA97zhynTKm6"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block px-8 py-3 md:px-6 md:py-2.5 bg-orange-300 text-gray-800 rounded-full font-semibold hover:bg-orange-400 transition-all shadow-sm text-base md:text-sm whitespace-nowrap"
+            className="inline-block px-8 py-3 md:px-6 md:py-2.5 bg-orange-300 text-gray-800 rounded-full font-semibold hover:bg-orange-400 transition-all shadow-sm text-base md:text-sm"
+            style={{ whiteSpace: 'nowrap' }}
           >
             立即填寫問卷
           </a>
@@ -290,6 +292,7 @@ export default function ClientPageContent() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block w-full px-6 py-3.5 md:py-3 bg-orange-300 text-gray-800 rounded-full font-semibold hover:bg-orange-400 transition-all text-center text-base md:text-sm"
+                style={{ whiteSpace: 'nowrap' }}
               >
                 立即填寫配對問卷
               </a>
