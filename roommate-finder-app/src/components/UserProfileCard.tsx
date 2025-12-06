@@ -31,40 +31,40 @@ const UserProfileCard: React.FC<UserProfileCardProps> = ({ user, isMatchedUser }
   const systemRecommendation = generateSystemRecommendation(user);
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-5 mb-4 border border-gray-100">
-      <div className="flex justify-between items-center mb-3">
-        <h3 className="text-base font-bold text-gray-800 flex items-center">
-          <UserIcon size={18} className="mr-2 text-orange-500" />
+    <div className="bg-white rounded-xl shadow-md p-6 md:p-5 mb-4 border border-gray-100">
+      <div className="flex justify-between items-center mb-4 md:mb-3">
+        <h3 className="text-lg md:text-base font-bold text-gray-800 flex items-center">
+          <UserIcon size={20} className="mr-2 text-orange-500" />
           {displayEmail}
         </h3>
         {isMatchedUser && 'matchScore' in user && (
-          <div className="flex items-center text-green-600 font-bold text-xl">
-            <Heart size={20} className="mr-1" />
+          <div className="flex items-center text-green-600 font-bold text-2xl md:text-xl">
+            <Heart size={22} className="mr-1" />
             {user.matchScore}%
           </div>
         )}
       </div>
 
       {/* System Recommendation */}
-      <div className="bg-orange-50 rounded-lg p-2.5 mb-3">
-        <p className="text-orange-800 text-xs leading-relaxed">💡 {systemRecommendation}</p>
+      <div className="bg-orange-50 rounded-lg p-3 md:p-2.5 mb-4 md:mb-3">
+        <p className="text-orange-800 text-sm md:text-xs leading-relaxed">💡 {systemRecommendation}</p>
       </div>
 
       {/* User Bio */}
       {user.bio && (
-        <div className="mb-3">
-          <p className="text-gray-700 text-sm leading-relaxed">✍️ {user.bio}</p>
+        <div className="mb-4 md:mb-3">
+          <p className="text-gray-700 text-base md:text-sm leading-relaxed">✍️ {user.bio}</p>
         </div>
       )}
 
       {/* Location and Budget */}
-      <div className="space-y-1.5 text-sm text-gray-600">
+      <div className="space-y-2 md:space-y-1.5 text-base md:text-sm text-gray-600">
         <div className="flex items-center">
-          <MapPin size={16} className="mr-2 text-orange-500" />
+          <MapPin size={18} className="mr-2 text-orange-500" />
           <span>{user.location_preferences.join('、')}</span>
         </div>
         <div className="flex items-center">
-          <DollarSign size={16} className="mr-2 text-green-500" />
+          <DollarSign size={18} className="mr-2 text-green-500" />
           <span>{getBudgetDisplay(user.rent_budget_range)}</span>
         </div>
       </div>
