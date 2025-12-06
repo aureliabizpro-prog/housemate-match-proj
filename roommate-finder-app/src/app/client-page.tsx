@@ -7,7 +7,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { ChevronLeft, ChevronRight, Search, Users, Heart, MapPin, DollarSign, Home, Mail, MessageSquare, Info, CalendarDays } from 'lucide-react';
 import { User, MatchedUser } from '@/types/user';
 import UserProfileCard from '@/components/UserProfileCard';
-import { obfuscateEmail } from '@/utils/matching';
+import { usersData, calculateMatchScore, obfuscateEmail } from '@/utils/matching';
 
 
 export default function ClientPageContent() {
@@ -42,43 +42,57 @@ export default function ClientPageContent() {
     }
   ];
 
-  // Fetch all users from API on component mount
+  // Use static data directly instead of API
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        setIsLoading(true);
-        const res = await fetch('/api/users');
-        if (!res.ok) {
-          throw new Error('Failed to fetch users');
-        }
-        const data = await res.json();
-        setAllUsers(data);
-        setError(null);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An unknown error occurred');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchUsers();
+    try {
+      setIsLoading(true);
+      const obfuscatedUsers = usersData.map(user => ({
+        ...user,
+        email: obfuscateEmail(user.email),
+      }));
+      setAllUsers(obfuscatedUsers);
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An unknown error occurred');
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
 
-  const handleSearch = async () => {
+  const handleSearch = () => {
     if (!searchEmail) return;
     try {
       setIsLoading(true);
       setError(null);
-      const res = await fetch(`/api/users?email=${encodeURIComponent(searchEmail)}`);
-      if (!res.ok) {
-        // Show friendly popup instead of error message
+
+      // Find user in original data (not obfuscated)
+      const currentUser = usersData.find(u => u.email === searchEmail.trim());
+
+      if (!currentUser) {
         setShowNotFoundPopup(true);
         setMatchedUsers(null);
         setIsLoading(false);
         return;
       }
-      const data = await res.json();
-      // The API returns { currentUser, top5Matches }
-      setMatchedUsers(data.top5Matches);
+
+      // Calculate matches
+      const matches: MatchedUser[] = [];
+      for (const candidate of usersData) {
+        if (candidate.id === currentUser.id) continue;
+
+        const matchScore = calculateMatchScore(currentUser, candidate);
+        if (matchScore > 0) {
+          matches.push({
+            ...candidate,
+            email: obfuscateEmail(candidate.email),
+            matchScore,
+          });
+        }
+      }
+
+      // Sort by match score and take top 5
+      matches.sort((a, b) => b.matchScore - a.matchScore);
+      setMatchedUsers(matches.slice(0, 5));
     } catch (err) {
       setShowNotFoundPopup(true);
       setMatchedUsers(null);
