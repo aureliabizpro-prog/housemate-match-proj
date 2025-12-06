@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>掃描 QR Code 打開好室友®</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #FAF7F2 0%, #F3EDE3 100%);
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 500px;
+        }
+        h1 {
+            color: #E08E6D;
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+        p {
+            color: #5A5A5A;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+        #qrcode {
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            display: inline-block;
+        }
+        .url {
+            background: #FFF8F0;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            word-break: break-all;
+            font-family: monospace;
+            color: #2D2D2D;
+            border: 2px solid #E08E6D;
+        }
+        .instructions {
+            margin-top: 20px;
+            color: #5A5A5A;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 好室友® 手機測試</h1>
+        <p>用手機相機掃描以下 QR Code</p>
+
+        <div id="qrcode"></div>
+
+        <div class="url">
+            http://192.168.0.55:3000
+        </div>
+
+        <div class="instructions">
+            <strong>操作步驟：</strong><br>
+            1️⃣ 確保手機和電腦連接同一個 WiFi<br>
+            2️⃣ 打開手機相機掃描上方 QR Code<br>
+            3️⃣ 點擊出現的網址連結<br>
+            4️⃣ 如果無法連接，請告訴我！
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        new QRCode(document.getElementById("qrcode"), {
+            text: "http://192.168.0.55:3000",
+            width: 256,
+            height: 256,
+            colorDark: "#E08E6D",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+    </script>
+</body>
+</html>
