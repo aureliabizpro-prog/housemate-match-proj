@@ -256,7 +256,7 @@ export default function ClientPageContent() {
         {/* CTA for Survey */}
         <div className="mt-8 bg-orange-50 rounded-xl p-6 text-center shadow-sm border border-orange-100">
           <h3 className="text-2xl md:text-xl font-bold text-gray-800 mb-3 break-keep">已有 {allUsers.length} 人在找室友</h3>
-          <p className="text-base md:text-sm text-gray-600 mb-6 md:mb-5 leading-relaxed break-keep">你也想找到理想的合租夥伴嗎？立即填寫問卷，讓系統為你推薦！</p>
+          <p className="text-base md:text-sm text-gray-600 mb-6 md:mb-5 leading-relaxed break-keep" style={{ wordBreak: 'keep-all' }}>你也想找到理想的合租夥伴嗎？立即填寫問卷，讓我們為你推薦！</p>
           <a
             href="https://forms.gle/iuFj9gA97zhynTKm6"
             target="_blank"
