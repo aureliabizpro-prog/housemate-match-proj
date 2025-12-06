@@ -1,31 +1,33 @@
 "use client";
 
 import { useState, useMemo, useEffect } from 'react';
-import { useRouter } from 'next/navigation'; // Changed to next/router
+import { useRouter } from 'next/navigation';
 import { Carousel } from 'react-responsive-carousel';
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { ChevronLeft, ChevronRight, Search, Users, Heart, MapPin, DollarSign, Home, Mail, MessageSquare, Info, CalendarDays } from 'lucide-react';
-import { User, MatchedUser } from '@/types/user';
-import UserProfileCard from '@/components/UserProfileCard';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { ChevronLeft, ChevronRight, Search } from 'lucide-react';
+import { BrowseUserCard, MatchRecommendation } from '@/types/user';
+import BrowseModeCard from '@/components/BrowseModeCard';
+import MatchModeCard from '@/components/MatchModeCard';
 import { usersData, calculateMatchScore, obfuscateEmail } from '@/utils/matching';
+import { transformToBrowseUserCard, transformToMatchRecommendation } from '@/utils/mockApiTransformers';
 
 
 export default function ClientPageContent() {
   const router = useRouter();
-  const [allUsers, setAllUsers] = useState<User[]>([]); // Initialize with empty array
-  const [matchedUsers, setMatchedUsers] = useState<MatchedUser[] | null>(null);
+  const [browseUsers, setBrowseUsers] = useState<BrowseUserCard[]>([]);
+  const [matchRecommendations, setMatchRecommendations] = useState<MatchRecommendation[] | null>(null);
   const [searchEmail, setSearchEmail] = useState('');
   const [filterLocation, setFilterLocation] = useState('ALL');
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isLoading, setIsLoading] = useState(true); // For loading state
-  const [error, setError] = useState<string | null>(null); // For error handling
-  const [showNotFoundPopup, setShowNotFoundPopup] = useState(false); // For friendly popup
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [showNotFoundPopup, setShowNotFoundPopup] = useState(false);
 
   const slides = [
     {
       title: '🏠 好室友®',
       subtitle: '用配對，找到真正合拍的室友',
-      desc: `已有 ${allUsers.length} 組成功配對 ✨`,
+      desc: `已有 ${browseUsers.length} 人在找室友 ✨`,
       showCTA: true
     },
     {
@@ -42,15 +44,12 @@ export default function ClientPageContent() {
     }
   ];
 
-  // Use static data directly instead of API
+  // Transform users to Browse Mode cards
   useEffect(() => {
     try {
       setIsLoading(true);
-      const obfuscatedUsers = usersData.map(user => ({
-        ...user,
-        email: obfuscateEmail(user.email),
-      }));
-      setAllUsers(obfuscatedUsers);
+      const browseModeCards = usersData.map(user => transformToBrowseUserCard(user));
+      setBrowseUsers(browseModeCards);
       setError(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unknown error occurred');
@@ -65,55 +64,59 @@ export default function ClientPageContent() {
       setIsLoading(true);
       setError(null);
 
-      // Find user in original data (not obfuscated)
+      // Find user in original data
       const currentUser = usersData.find(u => u.email === searchEmail.trim());
 
       if (!currentUser) {
         setShowNotFoundPopup(true);
-        setMatchedUsers(null);
+        setMatchRecommendations(null);
         setIsLoading(false);
         return;
       }
 
-      // Calculate matches
-      const matches: MatchedUser[] = [];
+      // Calculate matches and transform to MatchRecommendation format
+      const matches: MatchRecommendation[] = [];
       for (const candidate of usersData) {
         if (candidate.id === currentUser.id) continue;
 
         const matchScore = calculateMatchScore(currentUser, candidate);
         if (matchScore > 0) {
-          matches.push({
-            ...candidate,
-            email: obfuscateEmail(candidate.email),
-            matchScore,
-          });
+          const matchRecommendation = transformToMatchRecommendation(
+            currentUser,
+            candidate,
+            obfuscateEmail(candidate.email)
+          );
+          matches.push(matchRecommendation);
         }
       }
 
       // Sort by match score and take top 5
       matches.sort((a, b) => b.matchScore - a.matchScore);
-      setMatchedUsers(matches.slice(0, 5));
+      setMatchRecommendations(matches.slice(0, 5));
     } catch (err) {
       setShowNotFoundPopup(true);
-      setMatchedUsers(null);
+      setMatchRecommendations(null);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const filteredUsers = useMemo(() => {
-    if (matchedUsers) return matchedUsers; // If showing matched users, don't filter further
-    if (filterLocation === 'ALL') return allUsers;
-    return allUsers.filter(user => user.location_preferences.includes(filterLocation));
-  }, [allUsers, filterLocation, matchedUsers]);
+  const filteredBrowseUsers = useMemo(() => {
+    if (filterLocation === 'ALL') return browseUsers;
+    // Filter based on location in suitableFor
+    return browseUsers.filter(user =>
+      user.suitableFor.location.includes(filterLocation.replace('台北市', '').replace('新北市', ''))
+    );
+  }, [browseUsers, filterLocation]);
 
   const allLocations = useMemo(() => {
     const locations = new Set<string>();
-    allUsers.forEach(user => { // Use allUsers state instead of initialUsersData
-      user.location_preferences.forEach(loc => locations.add(loc));
+    browseUsers.forEach(user => {
+      const loc = user.suitableFor.location;
+      locations.add(loc);
     });
     return Array.from(locations);
-  }, [allUsers]); // Dependency on allUsers
+  }, [browseUsers]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-green-50 to-yellow-50 p-4">
@@ -196,20 +199,20 @@ export default function ClientPageContent() {
           </div>
         </div>
 
-        {matchedUsers ? (
-          matchedUsers.length > 0 ? (
+        {matchRecommendations ? (
+          matchRecommendations.length > 0 ? (
             <div>
               <h2 className="text-xl md:text-lg font-bold text-gray-800 mb-4">🎯 你的最佳配對推薦</h2>
-              {matchedUsers.map(user => (
-                <UserProfileCard key={user.id} user={user} isMatchedUser={true} />
+              {matchRecommendations.map((match, index) => (
+                <MatchModeCard key={match.matchId} match={match} rank={index + 1} />
               ))}
             </div>
           ) : null
         ) : (
           <div>
-            <h2 className="text-xl md:text-lg font-bold text-gray-800 mb-4">👥 配對案例參考</h2>
-            {filteredUsers.slice(0, 5).map(user => (
-              <UserProfileCard key={user.id} user={user} />
+            <h2 className="text-xl md:text-lg font-bold text-gray-800 mb-4">👥 尋找室友中</h2>
+            {filteredBrowseUsers.slice(0, 5).map(user => (
+              <BrowseModeCard key={user.userId} user={user} />
             ))}
           </div>
         )}
@@ -255,7 +258,7 @@ export default function ClientPageContent() {
 
         {/* CTA for Survey */}
         <div className="mt-8 bg-orange-50 rounded-xl p-6 text-center shadow-sm border border-orange-100">
-          <h3 className="text-2xl md:text-xl font-bold text-gray-800 mb-3 break-keep">已有 {allUsers.length} 人在找室友</h3>
+          <h3 className="text-2xl md:text-xl font-bold text-gray-800 mb-3 break-keep">已有 {browseUsers.length} 人在找室友</h3>
           <p className="text-base md:text-sm text-gray-600 mb-6 md:mb-5 leading-relaxed break-keep">
             你也想找到理想的合租夥伴嗎？立即填寫<span style={{ whiteSpace: 'nowrap' }}>問卷</span>，讓我們為你推薦！
           </p>

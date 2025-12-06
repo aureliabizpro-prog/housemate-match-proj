@@ -24,3 +24,51 @@ export interface User {
 export interface MatchedUser extends User {
   matchScore: number;
 }
+
+// Browse Mode (for third-party visitors who haven't filled the questionnaire)
+export interface BrowseUserCard {
+  userId: string;
+  tagInfo: {
+    gender: '生理女' | '生理男' | '非二元';
+    highlightFeature: string;  // e.g., "養馬爾濟斯", "行銷工作者"
+    highlightEmoji?: string;
+  };
+  matchStats: {
+    averageMatchScore: number;   // 平均契合度 0-100
+    potentialMatchCount: number; // 潛在配對數量 (score >= 60)
+  };
+  preferences: string[];  // 4-5 items, excluding info already in tag
+  suitableFor: {
+    description: string;
+    location: string;
+    budgetRange: string;
+  };
+  pronoun: '他' | '她' | 'TA';
+}
+
+// Match Recommendation Mode (for registered users who filled the questionnaire)
+export interface ScoreBreakdown {
+  genderPreference: number;  // 0-40
+  location: number;          // 0-20
+  budget: number;            // 0-15
+  lifestyle: number;         // 0-25
+}
+
+export interface MatchRecommendation {
+  matchId: string;
+  matchedUser: {
+    email: string;  // obfuscated
+    userId: string;
+  };
+  matchScore: number;  // 0-100
+  scoreBreakdown: ScoreBreakdown;
+  whyRecommended: string[];  // 3-5 items
+  lifestyle: {
+    schedule: string;
+    cleaning: string;
+    pets: string;
+    interaction: string;
+  };
+  quote?: string;
+  matchDate: string;  // ISO 8601
+}
