@@ -113,7 +113,7 @@ const MatchModeCard: React.FC<MatchModeCardProps> = ({ match, rank }) => {
           {match.whyRecommended.map((reason, index) => (
             <li key={index} className="text-sm text-gray-600 flex items-start bg-orange-50 rounded-lg p-2 border border-orange-100">
               <span className="text-orange-400 mr-2 font-bold flex-shrink-0">✓</span>
-              <span style={{ wordBreak: 'keep-all' }}>{reason}</span>
+              <span className="flex-1 min-w-0" style={{ wordBreak: 'keep-all', overflowWrap: 'anywhere' }}>{reason}</span>
             </li>
           ))}
         </ul>
@@ -128,19 +128,19 @@ const MatchModeCard: React.FC<MatchModeCardProps> = ({ match, rank }) => {
         <div className="grid grid-cols-2 gap-2 text-sm">
           <div className="bg-orange-50 rounded-lg p-2 border border-orange-100">
             <div className="text-gray-500 mb-0.5" style={{ wordBreak: 'keep-all' }}>作息：</div>
-            <div className="text-gray-700 font-medium" style={{ wordBreak: 'keep-all' }}>{match.lifestyle.schedule}</div>
+            <div className="text-gray-700 font-medium" style={{ wordBreak: 'keep-all', overflowWrap: 'anywhere' }}>{match.lifestyle.schedule}</div>
           </div>
           <div className="bg-green-50 rounded-lg p-2 border border-green-100">
             <div className="text-gray-500 mb-0.5" style={{ wordBreak: 'keep-all' }}>清潔：</div>
-            <div className="text-gray-700 font-medium" style={{ wordBreak: 'keep-all' }}>{match.lifestyle.cleaning}</div>
+            <div className="text-gray-700 font-medium" style={{ wordBreak: 'keep-all', overflowWrap: 'anywhere' }}>{match.lifestyle.cleaning}</div>
           </div>
           <div className="bg-orange-50 rounded-lg p-2 border border-orange-100">
             <div className="text-gray-500 mb-0.5" style={{ wordBreak: 'keep-all' }}>寵物：</div>
-            <div className="text-gray-700 font-medium" style={{ wordBreak: 'keep-all' }}>{match.lifestyle.pets}</div>
+            <div className="text-gray-700 font-medium" style={{ wordBreak: 'keep-all', overflowWrap: 'anywhere' }}>{match.lifestyle.pets}</div>
           </div>
           <div className="bg-green-50 rounded-lg p-2 border border-green-100">
             <div className="text-gray-500 mb-0.5" style={{ wordBreak: 'keep-all' }}>互動：</div>
-            <div className="text-gray-700 font-medium" style={{ wordBreak: 'keep-all' }}>{match.lifestyle.interaction}</div>
+            <div className="text-gray-700 font-medium" style={{ wordBreak: 'keep-all', overflowWrap: 'anywhere' }}>{match.lifestyle.interaction}</div>
           </div>
         </div>
       </div>
@@ -150,9 +150,9 @@ const MatchModeCard: React.FC<MatchModeCardProps> = ({ match, rank }) => {
         <div className="mb-4 bg-orange-50 rounded-lg p-4 border-l-4 border-orange-300">
           <div className="flex items-start gap-2">
             <Users size={18} className="text-orange-400 mt-0.5 flex-shrink-0" />
-            <div>
+            <div className="flex-1 min-w-0">
               <div className="text-xs text-gray-500 mb-1" style={{ wordBreak: 'keep-all' }}>室友說：</div>
-              <p className="text-sm text-gray-700 italic" style={{ wordBreak: 'keep-all' }}>「{match.quote}」</p>
+              <p className="text-sm text-gray-700 italic" style={{ wordBreak: 'keep-all', overflowWrap: 'anywhere' }}>「{match.quote}」</p>
             </div>
           </div>
         </div>

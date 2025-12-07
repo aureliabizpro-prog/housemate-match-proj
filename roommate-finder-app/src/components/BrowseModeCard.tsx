@@ -44,7 +44,7 @@ const BrowseModeCard: React.FC<BrowseModeCardProps> = ({ user }) => {
           {user.preferences.map((pref, index) => (
             <li key={index} className="text-sm text-gray-600 flex items-start">
               <span className="text-orange-600 mr-2 flex-shrink-0">•</span>
-              <span style={{ wordBreak: 'keep-all' }}>{pref}</span>
+              <span className="flex-1 min-w-0" style={{ wordBreak: 'keep-all', overflowWrap: 'anywhere' }}>{pref}</span>
             </li>
           ))}
         </ul>
@@ -53,15 +53,15 @@ const BrowseModeCard: React.FC<BrowseModeCardProps> = ({ user }) => {
       {/* Suitable For */}
       <div className="mb-4 bg-green-50 rounded-lg p-3 border border-green-100">
         <h4 className="text-sm font-bold text-green-500 mb-2" style={{ wordBreak: 'keep-all' }}>適合什麼樣的人：</h4>
-        <p className="text-sm text-green-600 mb-3" style={{ wordBreak: 'keep-all' }}>{user.suitableFor.description}</p>
+        <p className="text-sm text-green-600 mb-3" style={{ wordBreak: 'keep-all', overflowWrap: 'anywhere' }}>{user.suitableFor.description}</p>
         <div className="flex flex-wrap gap-3 text-xs text-gray-600">
           <div className="flex items-center gap-1">
             <MapPin size={14} className="text-orange-400 flex-shrink-0" />
-            <span style={{ wordBreak: 'keep-all' }}>{user.suitableFor.location}</span>
+            <span style={{ wordBreak: 'keep-all', overflowWrap: 'anywhere' }}>{user.suitableFor.location}</span>
           </div>
           <div className="flex items-center gap-1">
             <DollarSign size={14} className="text-green-400 flex-shrink-0" />
-            <span style={{ wordBreak: 'keep-all' }}>{user.suitableFor.budgetRange}</span>
+            <span style={{ wordBreak: 'keep-all', overflowWrap: 'anywhere' }}>{user.suitableFor.budgetRange}</span>
           </div>
         </div>
       </div>
