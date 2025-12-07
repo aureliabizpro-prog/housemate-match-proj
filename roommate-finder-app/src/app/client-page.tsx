@@ -211,7 +211,7 @@ export default function ClientPageContent() {
         ) : (
           <div>
             <h2 className="text-xl md:text-lg font-bold text-gray-800 mb-4">👥 尋找室友中</h2>
-            {filteredBrowseUsers.slice(0, 5).map(user => (
+            {filteredBrowseUsers.map(user => (
               <BrowseModeCard key={user.userId} user={user} />
             ))}
           </div>
