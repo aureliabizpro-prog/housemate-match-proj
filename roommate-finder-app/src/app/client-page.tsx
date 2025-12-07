@@ -22,6 +22,7 @@ export default function ClientPageContent() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showNotFoundPopup, setShowNotFoundPopup] = useState(false);
+  const [searchState, setSearchState] = useState<'initial' | 'notFound' | 'noMatches' | 'hasMatches'>('initial');
 
   const slides = [
     {
@@ -70,6 +71,7 @@ export default function ClientPageContent() {
       if (!currentUser) {
         setShowNotFoundPopup(true);
         setMatchRecommendations(null);
+        setSearchState('notFound');
         setIsLoading(false);
         return;
       }
@@ -92,10 +94,19 @@ export default function ClientPageContent() {
 
       // Sort by match score and take top 5
       matches.sort((a, b) => b.matchScore - a.matchScore);
-      setMatchRecommendations(matches.slice(0, 5));
+      const topMatches = matches.slice(0, 5);
+      setMatchRecommendations(topMatches);
+
+      // Set search state based on results
+      if (topMatches.length > 0) {
+        setSearchState('hasMatches');
+      } else {
+        setSearchState('noMatches');
+      }
     } catch (err) {
       setShowNotFoundPopup(true);
       setMatchRecommendations(null);
+      setSearchState('notFound');
     } finally {
       setIsLoading(false);
     }
@@ -199,16 +210,34 @@ export default function ClientPageContent() {
           </div>
         </div>
 
-        {matchRecommendations ? (
-          matchRecommendations.length > 0 ? (
-            <div>
-              <h2 className="text-xl md:text-lg font-bold text-gray-800 mb-4">🎯 你的最佳配對推薦</h2>
-              {matchRecommendations.map((match, index) => (
-                <MatchModeCard key={match.matchId} match={match} rank={index + 1} />
-              ))}
+        {/* 狀態3：已註冊有配對 - 顯示 Match Mode */}
+        {searchState === 'hasMatches' && matchRecommendations && matchRecommendations.length > 0 && (
+          <div>
+            <h2 className="text-xl md:text-lg font-bold text-gray-800 mb-4">🎯 你的最佳配對推薦</h2>
+            {matchRecommendations.map((match, index) => (
+              <MatchModeCard key={match.matchId} match={match} rank={index + 1} />
+            ))}
+          </div>
+        )}
+
+        {/* 狀態2：已註冊但無配對 - 顯示「媒合中」區塊 */}
+        {searchState === 'noMatches' && (
+          <div className="bg-white rounded-3xl shadow-md p-6 mb-4 border border-gray-100 text-center">
+            <div className="mb-4">
+              <div className="text-5xl mb-3">🎯</div>
+              <h3 className="text-2xl md:text-xl font-bold text-gray-800 mb-3">您的配對正在進行中！</h3>
             </div>
-          ) : null
-        ) : (
+            <p className="text-base md:text-sm text-gray-600 leading-relaxed mb-5">
+              我們正在為您尋找最合適的室友。媒合成功後會立即以 email 通知您，屆時請回到這個頁面查看詳細配對結果。
+            </p>
+            <p className="text-sm text-gray-500">
+              感謝您的耐心等待！💚
+            </p>
+          </div>
+        )}
+
+        {/* 狀態1 & 初始狀態：顯示 Browse Mode */}
+        {(searchState === 'initial' || searchState === 'notFound') && (
           <div>
             <h2 className="text-xl md:text-lg font-bold text-gray-800 mb-4">👥 尋找室友中</h2>
             {filteredBrowseUsers.map(user => (
@@ -217,7 +246,8 @@ export default function ClientPageContent() {
           </div>
         )}
 
-        {/* Why Choose Us */}
+        {/* Why Choose Us - 只在初始狀態或搜尋失敗時顯示 */}
+        {(searchState === 'initial' || searchState === 'notFound') && (
         <div className="mt-8 space-y-3">
           <div className="bg-orange-50/60 rounded-xl p-5 md:p-4 border border-orange-100/50">
             <div className="flex items-center">
@@ -255,8 +285,10 @@ export default function ClientPageContent() {
             </div>
           </div>
         </div>
+        )}
 
-        {/* CTA for Survey */}
+        {/* CTA for Survey - 只在初始狀態或搜尋失敗時顯示 */}
+        {(searchState === 'initial' || searchState === 'notFound') && (
         <div className="mt-8 bg-orange-50 rounded-xl p-6 text-center shadow-sm border border-orange-100">
           <h3 className="text-2xl md:text-xl font-bold text-gray-800 mb-3 break-keep">已有 {browseUsers.length} 人在找室友</h3>
           <p className="text-base md:text-sm text-gray-600 mb-6 md:mb-5 leading-relaxed break-keep">
@@ -272,6 +304,7 @@ export default function ClientPageContent() {
             立即填寫問卷
           </a>
         </div>
+        )}
       </div>
 
       {/* Friendly Not Found Popup */}
@@ -288,7 +321,15 @@ export default function ClientPageContent() {
               <div className="text-5xl mb-3 hidden fallback-emoji">🏡</div>
               <h3 className="text-2xl md:text-xl font-bold text-gray-800 mb-3">還沒有您的配對資料</h3>
               <p className="text-base md:text-sm text-gray-600 leading-relaxed mb-5">
-                我們的系統中還沒有您的資料。填寫問卷後，我們會為您尋找最合拍的室友！
+                我們的系統中還沒有您的資料。
+                <br /><br />
+                <strong>如果您剛提交問卷：</strong>
+                <br />
+                我們正在處理中（約需 3 天），請耐心等待 email 通知。
+                <br /><br />
+                <strong>如果尚未填寫問卷：</strong>
+                <br />
+                請點擊下方按鈕立即填寫，讓我們為您尋找最合拍的室友！
               </p>
             </div>
             <div className="space-y-3">
