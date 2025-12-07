@@ -75,6 +75,21 @@ export const usersData: User[] = [
     q12_schedule: 2,
     q13_interaction: 5,
     bio: '喜歡養寵物，希望找個也喜歡動物的室友。'
+  },
+  {
+    id: 'USER006',
+    email: 'user006@example.com',
+    gender_identity: 'M',
+    sex_assigned_at_birth: 'SAM',
+    roommate_gender_preference: 'SAF_ONLY',
+    location_preferences: ['台北市萬華區'],
+    rent_budget_range: 'SHARE_GT22K',
+    q9_cleaning: 1,
+    q10_visitors: 5,
+    q11_pets: 5,
+    q12_schedule: 1,
+    q13_interaction: 1,
+    bio: '自由工作者，作息不定時，經常有朋友來訪。'
   }
 ];
 

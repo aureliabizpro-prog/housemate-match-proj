@@ -74,7 +74,7 @@ const BrowseModeCard: React.FC<BrowseModeCardProps> = ({ user }) => {
         } text-white font-semibold py-3 px-4 rounded-lg transition-all flex items-center justify-center gap-2`}
       >
         <span style={{ wordBreak: 'keep-all' }}>
-          {user.matchStats.potentialMatchCount === 0 ? '我可能適合欸' : '我可能更適合'}
+          {user.matchStats.potentialMatchCount === 0 ? '我可能是他等的那個人！' : '我可能更適合'}
         </span>
         <span className="text-xl flex-shrink-0">›</span>
       </button>

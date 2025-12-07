@@ -117,10 +117,32 @@ const generateTagInfo = (user: User): BrowseUserCard['tagInfo'] => {
     highlightFeature = '現有空間找室友';
     highlightEmoji = '🏠';
   }
-  // Default
+  // Default: use lifestyle characteristics instead of generic "尋找室友中"
   else {
-    highlightFeature = '尋找室友中';
-    highlightEmoji = '👋';
+    // Check lifestyle habits for distinctive features
+    if (user.q9_cleaning >= 4) {
+      highlightFeature = '重視環境整潔';
+      highlightEmoji = '✨';
+    } else if (user.q13_interaction >= 4) {
+      highlightFeature = '喜歡互動交流';
+      highlightEmoji = '💬';
+    } else if (user.q13_interaction <= 2) {
+      highlightFeature = '重視個人空間';
+      highlightEmoji = '🤫';
+    } else if (user.q12_schedule >= 4) {
+      highlightFeature = '早睡早起族';
+      highlightEmoji = '🌅';
+    } else if (user.q12_schedule <= 2) {
+      highlightFeature = '夜貓子';
+      highlightEmoji = '🌙';
+    } else if (user.location_preferences.length > 0) {
+      const mainLocation = user.location_preferences[0].replace('台北市', '').replace('新北市', '');
+      highlightFeature = `找${mainLocation}室友`;
+      highlightEmoji = '📍';
+    } else {
+      highlightFeature = '好相處的室友';
+      highlightEmoji = '😊';
+    }
   }
 
   return {
