@@ -23,16 +23,15 @@ const BrowseModeCard: React.FC<BrowseModeCardProps> = ({ user }) => {
       <div className="mb-4 pb-4 border-b border-gray-100">
         <div className="flex items-center gap-2">
           <Users size={20} className="text-orange-400 flex-shrink-0" />
-          <div>
-            <div className="text-xs text-gray-500" style={{ wordBreak: 'keep-all' }}>潛在室友</div>
-            {user.matchStats.potentialMatchCount > 0 ? (
-              <div className="text-xl font-bold text-orange-500 flex items-center gap-1">
-                {user.matchStats.potentialMatchCount}&nbsp;位
-                {user.matchStats.averageMatchScore >= 70 && <span className="text-base">🔥</span>}
-              </div>
-            ) : (
-              <div className="text-lg font-semibold text-gray-400" style={{ wordBreak: 'keep-all' }}>等待中</div>
-            )}
+          <div className="flex-1">
+            <div className="text-sm font-semibold text-gray-700" style={{ wordBreak: 'keep-all' }}>
+              潛在室友&nbsp;{user.matchStats.potentialMatchCount}&nbsp;位
+              &nbsp;&nbsp;
+              <span className="text-orange-500">
+                平均契合度&nbsp;{user.matchStats.averageMatchScore}%
+              </span>
+              {user.matchStats.averageMatchScore >= 70 && <span className="ml-1">🔥</span>}
+            </div>
           </div>
         </div>
       </div>
@@ -67,8 +66,16 @@ const BrowseModeCard: React.FC<BrowseModeCardProps> = ({ user }) => {
       </div>
 
       {/* CTA */}
-      <button className="w-full bg-orange-300 text-white font-semibold py-3 px-4 rounded-lg hover:bg-orange-400 transition-all flex items-center justify-center gap-2">
-        <span style={{ wordBreak: 'keep-all' }}>我可能適合欸</span>
+      <button
+        className={`w-full ${
+          user.matchStats.potentialMatchCount === 0
+            ? 'bg-green-300 hover:bg-green-400'
+            : 'bg-orange-300 hover:bg-orange-400'
+        } text-white font-semibold py-3 px-4 rounded-lg transition-all flex items-center justify-center gap-2`}
+      >
+        <span style={{ wordBreak: 'keep-all' }}>
+          {user.matchStats.potentialMatchCount === 0 ? '我可能適合欸' : '我可能更適合'}
+        </span>
         <span className="text-xl flex-shrink-0">›</span>
       </button>
     </div>
