@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowseUserCard } from '@/types/user';
-import { MapPin, DollarSign, Users, TrendingUp } from 'lucide-react';
+import { MapPin, DollarSign, Users } from 'lucide-react';
 
 interface BrowseModeCardProps {
   user: BrowseUserCard;
@@ -8,7 +8,7 @@ interface BrowseModeCardProps {
 
 const BrowseModeCard: React.FC<BrowseModeCardProps> = ({ user }) => {
   return (
-    <div className="bg-white rounded-2xl shadow-md p-5 md:p-6 mb-4 border border-gray-100 hover:shadow-lg transition-shadow break-keep">
+    <div className="bg-white rounded-3xl shadow-md p-5 md:p-6 mb-4 border border-gray-100 hover:shadow-lg transition-shadow break-keep">
       {/* Comprehensive Tag */}
       <div className="mb-4 break-keep">
         <div className="inline-flex items-center gap-2 bg-orange-50 px-4 py-2 rounded-full border border-orange-200 flex-wrap">
@@ -20,42 +20,21 @@ const BrowseModeCard: React.FC<BrowseModeCardProps> = ({ user }) => {
       </div>
 
       {/* Match Stats */}
-      <div className="flex items-center gap-4 mb-4 pb-4 border-b border-gray-100 flex-wrap">
+      <div className="mb-4 pb-4 border-b border-gray-100">
         <div className="flex items-center gap-2">
           <Users size={20} className="text-orange-400 flex-shrink-0" />
           <div>
-            <div className="text-xs text-gray-500" style={{ wordBreak: 'keep-all' }}>已配對</div>
-            <div className="text-xl font-bold text-orange-500 flex items-center gap-1">
-              {user.matchStats.potentialMatchCount}&nbsp;位
-              {user.matchStats.averageMatchScore >= 70 && <span className="text-base">🔥</span>}
-            </div>
+            <div className="text-xs text-gray-500" style={{ wordBreak: 'keep-all' }}>潛在室友</div>
+            {user.matchStats.potentialMatchCount > 0 ? (
+              <div className="text-xl font-bold text-orange-500 flex items-center gap-1">
+                {user.matchStats.potentialMatchCount}&nbsp;位
+                {user.matchStats.averageMatchScore >= 70 && <span className="text-base">🔥</span>}
+              </div>
+            ) : (
+              <div className="text-lg font-semibold text-gray-400" style={{ wordBreak: 'keep-all' }}>等待中</div>
+            )}
           </div>
         </div>
-        {user.matchStats.averageMatchScore < 50 ? (
-          <div className="flex items-center gap-2">
-            <TrendingUp size={20} className="text-gray-400 flex-shrink-0" />
-            <div>
-              <div className="text-xs text-gray-400" style={{ wordBreak: 'keep-all' }}>配對狀態</div>
-              <div className="text-sm font-semibold text-gray-500" style={{ wordBreak: 'keep-all' }}>尋找中</div>
-            </div>
-          </div>
-        ) : user.matchStats.averageMatchScore >= 70 ? (
-          <div className="flex items-center gap-2">
-            <TrendingUp size={20} className="text-orange-400 flex-shrink-0" />
-            <div>
-              <div className="text-xs text-gray-500" style={{ wordBreak: 'keep-all' }}>配對狀態</div>
-              <div className="text-sm font-bold text-orange-500" style={{ wordBreak: 'keep-all' }}>熱門 🌟</div>
-            </div>
-          </div>
-        ) : (
-          <div className="flex items-center gap-2">
-            <TrendingUp size={20} className="text-green-400 flex-shrink-0" />
-            <div>
-              <div className="text-xs text-gray-500" style={{ wordBreak: 'keep-all' }}>配對狀態</div>
-              <div className="text-sm font-semibold text-green-500" style={{ wordBreak: 'keep-all' }}>配對中</div>
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Preferences */}
@@ -89,9 +68,8 @@ const BrowseModeCard: React.FC<BrowseModeCardProps> = ({ user }) => {
 
       {/* CTA */}
       <button className="w-full bg-orange-300 text-white font-semibold py-3 px-4 rounded-lg hover:bg-orange-400 transition-all flex items-center justify-center gap-2">
-        <span className="flex-shrink-0">💭</span>
-        <span style={{ wordBreak: 'keep-all' }}>我覺得我可能適合欸</span>
-        <span className="flex-shrink-0">→</span>
+        <span style={{ wordBreak: 'keep-all' }}>我可能適合欸</span>
+        <span className="text-xl flex-shrink-0">›</span>
       </button>
     </div>
   );
