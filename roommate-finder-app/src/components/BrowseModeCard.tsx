@@ -12,8 +12,8 @@ const BrowseModeCard: React.FC<BrowseModeCardProps> = ({ user }) => {
       {/* Comprehensive Tag */}
       <div className="mb-4 break-keep">
         <div className="inline-flex items-center gap-2 bg-orange-50 px-4 py-2 rounded-full border border-orange-200 flex-wrap">
-          <span className="text-lg flex-shrink-0">{user.tagInfo.highlightEmoji || '👤'}</span>
-          <span className="font-bold text-orange-500" style={{ wordBreak: 'keep-all' }}>
+          <span className="text-base flex-shrink-0">{user.tagInfo.highlightEmoji || '👤'}</span>
+          <span className="font-medium text-orange-500 text-sm" style={{ wordBreak: 'keep-all' }}>
             {user.tagInfo.gender}&nbsp;·&nbsp;{user.tagInfo.highlightFeature}
           </span>
         </div>
@@ -27,7 +27,7 @@ const BrowseModeCard: React.FC<BrowseModeCardProps> = ({ user }) => {
             <div className="text-sm font-semibold text-gray-700" style={{ wordBreak: 'keep-all' }}>
               潛在室友&nbsp;{user.matchStats.potentialMatchCount}&nbsp;位
               &nbsp;&nbsp;
-              <span className="text-orange-500">
+              <span className={user.matchStats.potentialMatchCount === 0 ? 'text-gray-400' : 'text-orange-500'}>
                 平均契合度&nbsp;{user.matchStats.averageMatchScore}%
               </span>
               {user.matchStats.averageMatchScore >= 70 && <span className="ml-1">🔥</span>}
@@ -38,7 +38,7 @@ const BrowseModeCard: React.FC<BrowseModeCardProps> = ({ user }) => {
 
       {/* Preferences */}
       <div className="mb-4">
-        <h4 className="text-sm font-bold text-gray-700 mb-2" style={{ wordBreak: 'keep-all' }}>{user.pronoun}在意的事：</h4>
+        <h4 className="text-base font-bold text-gray-800 mb-3" style={{ wordBreak: 'keep-all' }}>{user.pronoun}在意的事：</h4>
         <ul className="space-y-1.5">
           {user.preferences.map((pref, index) => (
             <li key={index} className="text-sm text-gray-600 flex items-start">
@@ -51,8 +51,8 @@ const BrowseModeCard: React.FC<BrowseModeCardProps> = ({ user }) => {
 
       {/* Suitable For */}
       <div className="mb-4 bg-green-50 rounded-lg p-3 border border-green-100">
-        <h4 className="text-sm font-bold text-green-500 mb-2" style={{ wordBreak: 'keep-all' }}>適合什麼樣的人：</h4>
-        <p className="text-sm text-green-600 mb-3" style={{ wordBreak: 'keep-all', overflowWrap: 'anywhere' }}>{user.suitableFor.description}</p>
+        <h4 className="text-base font-bold text-green-600 mb-3" style={{ wordBreak: 'keep-all' }}>適合什麼樣的人：</h4>
+        <p className="text-sm text-green-700 mb-3" style={{ wordBreak: 'keep-all', overflowWrap: 'anywhere' }}>{user.suitableFor.description}</p>
         <div className="flex flex-wrap gap-3 text-xs text-gray-600">
           <div className="flex items-center gap-1">
             <MapPin size={14} className="text-orange-400 flex-shrink-0" />
@@ -69,14 +69,14 @@ const BrowseModeCard: React.FC<BrowseModeCardProps> = ({ user }) => {
       <button
         className={`w-full ${
           user.matchStats.potentialMatchCount === 0
-            ? 'bg-green-300 hover:bg-green-400'
+            ? 'bg-green-400 hover:bg-green-500'
             : 'bg-orange-300 hover:bg-orange-400'
-        } text-white font-semibold py-3 px-4 rounded-lg transition-all flex items-center justify-center gap-2`}
+        } text-white font-medium py-2.5 px-4 rounded-full transition-all flex items-center justify-center gap-2`}
       >
         <span style={{ wordBreak: 'keep-all' }}>
           {user.matchStats.potentialMatchCount === 0 ? '感覺我可以欸！' : '我可能更適合'}
         </span>
-        <span className="text-xl flex-shrink-0">›</span>
+        <span className="text-lg flex-shrink-0">›</span>
       </button>
     </div>
   );

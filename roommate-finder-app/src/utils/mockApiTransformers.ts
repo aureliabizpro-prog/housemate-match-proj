@@ -14,10 +14,13 @@ export const transformToBrowseUserCard = (user: User): BrowseUserCard => {
   // Calculate average match score with all other users
   const otherUsers = usersData.filter(u => u.id !== user.id);
   const scores = otherUsers.map(otherUser => calculateMatchScore(user, otherUser));
-  const averageMatchScore = Math.round(
-    scores.reduce((sum, score) => sum + score, 0) / scores.length
-  );
   const potentialMatchCount = scores.filter(score => score >= 60).length;
+
+  // Only calculate average from matches >= 60, otherwise 0
+  const validScores = scores.filter(score => score >= 60);
+  const averageMatchScore = potentialMatchCount > 0
+    ? Math.round(validScores.reduce((sum, score) => sum + score, 0) / validScores.length)
+    : 0;
 
   // Generate tag info
   const tagInfo = generateTagInfo(user);
