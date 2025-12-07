@@ -14,7 +14,7 @@ const MatchModeCard: React.FC<MatchModeCardProps> = ({ match, rank }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-5 md:p-6 mb-4 border border-gray-100 hover:shadow-lg transition-shadow break-keep">
+    <div className="bg-white rounded-2xl shadow-md p-5 md:p-6 mb-4 border border-gray-100 hover:shadow-lg transition-shadow break-keep">
       {/* Header with Rank and Score */}
       <div className="flex justify-between items-start mb-4 flex-wrap gap-2">
         <div className="flex items-center gap-3">

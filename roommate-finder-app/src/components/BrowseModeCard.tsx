@@ -8,7 +8,7 @@ interface BrowseModeCardProps {
 
 const BrowseModeCard: React.FC<BrowseModeCardProps> = ({ user }) => {
   return (
-    <div className="bg-white rounded-xl shadow-md p-5 md:p-6 mb-4 border border-gray-100 hover:shadow-lg transition-shadow break-keep">
+    <div className="bg-white rounded-2xl shadow-md p-5 md:p-6 mb-4 border border-gray-100 hover:shadow-lg transition-shadow break-keep">
       {/* Comprehensive Tag */}
       <div className="mb-4 break-keep">
         <div className="inline-flex items-center gap-2 bg-orange-50 px-4 py-2 rounded-full border border-orange-200 flex-wrap">
@@ -22,19 +22,40 @@ const BrowseModeCard: React.FC<BrowseModeCardProps> = ({ user }) => {
       {/* Match Stats */}
       <div className="flex items-center gap-4 mb-4 pb-4 border-b border-gray-100 flex-wrap">
         <div className="flex items-center gap-2">
-          <TrendingUp size={20} className="text-green-400 flex-shrink-0" />
-          <div>
-            <div className="text-xs text-gray-500" style={{ wordBreak: 'keep-all' }}>平均契合度</div>
-            <div className="text-xl font-bold text-green-500">{user.matchStats.averageMatchScore}%</div>
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
           <Users size={20} className="text-orange-400 flex-shrink-0" />
           <div>
-            <div className="text-xs text-gray-500" style={{ wordBreak: 'keep-all' }}>潛在室友</div>
-            <div className="text-xl font-bold text-orange-500">{user.matchStats.potentialMatchCount}&nbsp;位</div>
+            <div className="text-xs text-gray-500" style={{ wordBreak: 'keep-all' }}>已配對</div>
+            <div className="text-xl font-bold text-orange-500 flex items-center gap-1">
+              {user.matchStats.potentialMatchCount}&nbsp;位
+              {user.matchStats.averageMatchScore >= 70 && <span className="text-base">🔥</span>}
+            </div>
           </div>
         </div>
+        {user.matchStats.averageMatchScore < 50 ? (
+          <div className="flex items-center gap-2">
+            <TrendingUp size={20} className="text-gray-400 flex-shrink-0" />
+            <div>
+              <div className="text-xs text-gray-400" style={{ wordBreak: 'keep-all' }}>配對狀態</div>
+              <div className="text-sm font-semibold text-gray-500" style={{ wordBreak: 'keep-all' }}>尋找中</div>
+            </div>
+          </div>
+        ) : user.matchStats.averageMatchScore >= 70 ? (
+          <div className="flex items-center gap-2">
+            <TrendingUp size={20} className="text-orange-400 flex-shrink-0" />
+            <div>
+              <div className="text-xs text-gray-500" style={{ wordBreak: 'keep-all' }}>配對狀態</div>
+              <div className="text-sm font-bold text-orange-500" style={{ wordBreak: 'keep-all' }}>熱門 🌟</div>
+            </div>
+          </div>
+        ) : (
+          <div className="flex items-center gap-2">
+            <TrendingUp size={20} className="text-green-400 flex-shrink-0" />
+            <div>
+              <div className="text-xs text-gray-500" style={{ wordBreak: 'keep-all' }}>配對狀態</div>
+              <div className="text-sm font-semibold text-green-500" style={{ wordBreak: 'keep-all' }}>配對中</div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Preferences */}
