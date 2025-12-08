@@ -95,12 +95,19 @@ export default function ClientPageContent() {
       // Sort by match score and take top 5
       matches.sort((a, b) => b.matchScore - a.matchScore);
       const topMatches = matches.slice(0, 5);
+
+      console.log(`[搜尋調試] Email: ${searchEmail.trim()}`);
+      console.log(`[搜尋調試] 找到的配對數: ${matches.length}`);
+      console.log(`[搜尋調試] Top 5 配對數: ${topMatches.length}`);
+
       setMatchRecommendations(topMatches);
 
       // Set search state based on results
       if (topMatches.length > 0) {
+        console.log('[搜尋調試] 設置狀態: hasMatches');
         setSearchState('hasMatches');
       } else {
+        console.log('[搜尋調試] 設置狀態: noMatches');
         setSearchState('noMatches');
       }
     } catch (err) {
@@ -208,6 +215,26 @@ export default function ClientPageContent() {
               查詢
             </button>
           </div>
+
+          {/* Debug Status Indicator */}
+          {searchEmail && (
+            <div className="mt-3 text-center">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full text-xs text-gray-600">
+                <span className="font-mono">當前狀態:</span>
+                <span className={`font-bold ${
+                  searchState === 'initial' ? 'text-gray-500' :
+                  searchState === 'notFound' ? 'text-red-500' :
+                  searchState === 'noMatches' ? 'text-yellow-600' :
+                  'text-green-600'
+                }`}>
+                  {searchState === 'initial' && '初始狀態'}
+                  {searchState === 'notFound' && '未找到'}
+                  {searchState === 'noMatches' && '無配對'}
+                  {searchState === 'hasMatches' && `有配對 (${matchRecommendations?.length || 0})`}
+                </span>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* 狀態3：已註冊有配對 - 顯示 Match Mode */}
@@ -310,41 +337,49 @@ export default function ClientPageContent() {
       {/* Friendly Not Found Popup */}
       {showNotFoundPopup && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50" onClick={() => setShowNotFoundPopup(false)}>
-          <div className="bg-white rounded-2xl p-6 max-w-md w-full shadow-xl" onClick={(e) => e.stopPropagation()}>
-            <div className="text-center mb-4">
-              <img
-                src="/housemate-match-proj/illustrations/undraw_taken_mshk.svg"
-                alt="尚未註冊"
-                className="w-48 h-auto mx-auto mb-4"
-                onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.parentElement?.querySelector('.fallback-emoji')?.classList.remove('hidden') }}
-              />
-              <div className="text-5xl mb-3 hidden fallback-emoji">🏡</div>
-              <h3 className="text-2xl md:text-xl font-bold text-gray-800 mb-3">還沒有您的配對資料</h3>
-              <p className="text-base md:text-sm text-gray-600 leading-relaxed mb-5">
-                我們的系統中還沒有您的資料。
-                <br /><br />
-                <strong>如果您剛提交問卷：</strong>
-                <br />
-                我們正在處理中（約需 3 天），請耐心等待 email 通知。
-                <br /><br />
-                <strong>如果尚未填寫問卷：</strong>
-                <br />
-                請點擊下方按鈕立即填寫，讓我們為您尋找最合拍的室友！
-              </p>
+          <div className="bg-white rounded-2xl p-6 md:p-8 max-w-md w-full shadow-xl" onClick={(e) => e.stopPropagation()}>
+            {/* Icon */}
+            <div className="text-center mb-5">
+              <div className="text-6xl mb-3">🏡</div>
+              <h3 className="text-2xl md:text-xl font-bold text-gray-800 mb-2">還沒有您的配對資料</h3>
             </div>
-            <div className="space-y-3">
+
+            {/* Two scenarios */}
+            <div className="space-y-3 mb-6">
+              <div className="bg-orange-50/80 rounded-xl p-4 border border-orange-200">
+                <div className="flex items-start gap-3">
+                  <span className="text-2xl flex-shrink-0">⏳</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-bold text-gray-800 mb-1.5 text-base">如果您剛提交問卷</p>
+                    <p className="text-sm text-gray-700 leading-relaxed">我們正在處理中（約需 3 天），請耐心等待 email 通知。</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-green-50/80 rounded-xl p-4 border border-green-200">
+                <div className="flex items-start gap-3">
+                  <span className="text-2xl flex-shrink-0">✍️</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-bold text-gray-800 mb-1.5 text-base">如果您還未填寫過資料</p>
+                    <p className="text-sm text-gray-700 leading-relaxed">請點擊下方按鈕填寫問卷，找到理想室友！</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="space-y-2.5">
               <a
                 href="https://forms.gle/iuFj9gA97zhynTKm6"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full px-6 py-3.5 md:py-3 bg-orange-300 text-gray-800 rounded-full font-semibold hover:bg-orange-400 transition-all text-center text-base md:text-sm"
-                style={{ whiteSpace: 'nowrap' }}
+                className="block w-full px-6 py-3 bg-orange-300 text-gray-800 rounded-full font-semibold hover:bg-orange-400 transition-all text-center text-base"
               >
                 立即填寫配對問卷
               </a>
               <button
                 onClick={() => setShowNotFoundPopup(false)}
-                className="block w-full px-6 py-3.5 md:py-3 bg-gray-100 text-gray-700 rounded-full font-medium hover:bg-gray-200 transition-all text-base md:text-sm"
+                className="block w-full px-6 py-2.5 bg-gray-100 text-gray-600 rounded-full font-medium hover:bg-gray-200 transition-all text-sm"
               >
                 稍後再說
               </button>

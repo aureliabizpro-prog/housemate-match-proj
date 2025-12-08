@@ -90,6 +90,21 @@ export const usersData: User[] = [
     q12_schedule: 1,
     q13_interaction: 1,
     bio: '自由工作者，作息不定時，經常有朋友來訪。'
+  },
+  {
+    id: 'TEST_NOMATCH',
+    email: 'nomatch@test.com',
+    gender_identity: 'NB',  // 非二元性別
+    sex_assigned_at_birth: 'SAF',
+    roommate_gender_preference: 'SAM_ONLY',  // 只要生理男性室友
+    location_preferences: ['基隆市'],
+    rent_budget_range: 'SHARE_LT8K',
+    q9_cleaning: 5,
+    q10_visitors: 1,
+    q11_pets: 1,
+    q12_schedule: 5,
+    q13_interaction: 1,
+    bio: '測試用戶：此用戶應該無法與任何人配對（用於測試 noMatches 狀態）'
   }
 ];
 
