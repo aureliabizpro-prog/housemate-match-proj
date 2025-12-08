@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { ChevronLeft, ChevronRight, Search } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Search, X, ArrowLeft } from 'lucide-react';
 import { BrowseUserCard, MatchRecommendation } from '@/types/user';
 import BrowseModeCard from '@/components/BrowseModeCard';
 import MatchModeCard from '@/components/MatchModeCard';
@@ -129,6 +129,15 @@ export default function ClientPageContent() {
     }
   };
 
+  const handleReset = () => {
+    setSearchEmail('');
+    setSearchState('initial');
+    setMatchRecommendations(null);
+    setShowNotFoundPopup(false);
+    // Scroll to top smoothly
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const filteredBrowseUsers = useMemo(() => {
     if (filterLocation === 'ALL') return browseUsers;
     // Filter based on location in suitableFor
@@ -218,6 +227,15 @@ export default function ClientPageContent() {
               onKeyPress={e => e.key === 'Enter' && handleSearch()}
               className="w-full pl-12 pr-28 py-4 md:py-3 rounded-full border-2 border-gray-200 focus:border-orange-300 focus:outline-none text-lg md:text-base"
             />
+            {searchEmail && (
+              <button
+                onClick={handleReset}
+                className="absolute right-24 top-4 md:top-3.5 text-gray-400 hover:text-gray-600 transition-all"
+                title="清除搜尋"
+              >
+                <X size={20} />
+              </button>
+            )}
             <button
               onClick={handleSearch}
               className="absolute right-2 top-2.5 px-5 py-2 bg-orange-300 text-gray-800 rounded-full hover:bg-orange-400 transition-all font-medium text-base md:text-sm"
@@ -246,6 +264,19 @@ export default function ClientPageContent() {
             </div>
           )}
         </div>
+
+        {/* 返回瀏覽按鈕 - 在有搜尋結果時顯示 */}
+        {(searchState === 'hasMatches' || searchState === 'noMatches') && (
+          <div className="mb-6">
+            <button
+              onClick={handleReset}
+              className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-orange-100 to-green-100 text-gray-700 rounded-full hover:from-orange-200 hover:to-green-200 transition-all font-medium text-base md:text-sm border border-orange-200 shadow-sm mx-auto"
+            >
+              <ArrowLeft size={18} className="flex-shrink-0" />
+              <span style={{ wordBreak: 'keep-all' }}>返回瀏覽所有室友</span>
+            </button>
+          </div>
+        )}
 
         {/* 狀態3：已註冊有配對 - 顯示 Match Mode */}
         {searchState === 'hasMatches' && matchRecommendations && matchRecommendations.length > 0 && (
