@@ -65,6 +65,16 @@ export default function ClientPageContent() {
       setIsLoading(true);
       setError(null);
 
+      // Special test case for demonstrating noMatches state
+      if (searchEmail.trim().toLowerCase() === 'test.nomatch@test.com') {
+        console.log('[搜尋調試] 測試 email: test.nomatch@test.com');
+        console.log('[搜尋調試] 強制返回 noMatches 狀態');
+        setMatchRecommendations([]);
+        setSearchState('noMatches');
+        setIsLoading(false);
+        return;
+      }
+
       // Find user in original data
       const currentUser = usersData.find(u => u.email === searchEmail.trim());
 
@@ -351,7 +361,7 @@ export default function ClientPageContent() {
                   <span className="text-2xl flex-shrink-0">⏳</span>
                   <div className="flex-1 min-w-0">
                     <p className="font-bold text-gray-800 mb-1.5 text-base">如果您剛提交問卷</p>
-                    <p className="text-sm text-gray-700 leading-relaxed">我們正在處理中（約需 3 天），請耐心等待 email 通知。</p>
+                    <p className="text-sm text-gray-700 leading-relaxed">我們正在處理中（約需 1-3 天），請耐心等待 email 通知。</p>
                   </div>
                 </div>
               </div>
