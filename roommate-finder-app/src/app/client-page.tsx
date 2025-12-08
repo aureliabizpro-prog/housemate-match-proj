@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { ChevronLeft, ChevronRight, Search, X, ArrowLeft } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Search, X, ArrowLeft, Eye } from 'lucide-react';
 import { BrowseUserCard, MatchRecommendation } from '@/types/user';
 import BrowseModeCard from '@/components/BrowseModeCard';
 import MatchModeCard from '@/components/MatchModeCard';
@@ -14,6 +14,10 @@ import { transformToBrowseUserCard, transformToMatchRecommendation } from '@/uti
 
 export default function ClientPageContent() {
   const router = useRouter();
+
+  // Demo email constant for trial experience
+  const DEMO_EMAIL = 'user002@example.com';
+
   const [browseUsers, setBrowseUsers] = useState<BrowseUserCard[]>([]);
   const [matchRecommendations, setMatchRecommendations] = useState<MatchRecommendation[] | null>(null);
   const [searchEmail, setSearchEmail] = useState('');
@@ -138,6 +142,16 @@ export default function ClientPageContent() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleDemoClick = () => {
+    setSearchEmail(DEMO_EMAIL);
+    // Scroll to top smoothly
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Delay search trigger to let scroll animation complete
+    setTimeout(() => {
+      handleSearch();
+    }, 300);
+  };
+
   const filteredBrowseUsers = useMemo(() => {
     if (filterLocation === 'ALL') return browseUsers;
     // Filter based on location in suitableFor
@@ -154,6 +168,9 @@ export default function ClientPageContent() {
     });
     return Array.from(locations);
   }, [browseUsers]);
+
+  // Check if currently in Demo mode
+  const isDemoMode = searchEmail === DEMO_EMAIL && searchState === 'hasMatches';
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-green-50 to-yellow-50 p-4">
@@ -263,6 +280,20 @@ export default function ClientPageContent() {
               </div>
             </div>
           )}
+
+          {/* Demo Button - 只在初始狀態顯示 */}
+          {searchState === 'initial' && (
+            <div className="mt-4 text-center">
+              <button
+                onClick={handleDemoClick}
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-green-50 text-green-600 rounded-full font-medium hover:bg-green-100 transition-all border border-green-200"
+              >
+                <Eye size={18} className="flex-shrink-0" />
+                <span style={{ wordBreak: 'keep-all' }}>體驗配對功能</span>
+              </button>
+              <p className="text-xs text-gray-500 mt-2">看看配對結果長什麼樣</p>
+            </div>
+          )}
         </div>
 
         {/* 返回瀏覽按鈕 - 在有搜尋結果時顯示 */}
@@ -285,6 +316,28 @@ export default function ClientPageContent() {
             {matchRecommendations.map((match, index) => (
               <MatchModeCard key={match.matchId} match={match} rank={index + 1} />
             ))}
+
+            {/* Demo Mode CTA - 只在 Demo 模式顯示 */}
+            {isDemoMode && (
+              <div className="mt-6 bg-gradient-to-r from-orange-50 to-green-50 rounded-3xl p-6 md:p-8 text-center border-2 border-orange-200">
+                <div className="mb-4">
+                  <div className="text-4xl mb-3">✨</div>
+                  <h3 className="text-2xl md:text-xl font-bold text-gray-800 mb-3">看到適合您的配對了嗎？</h3>
+                </div>
+                <p className="text-base md:text-sm text-gray-600 mb-6 leading-relaxed">
+                  這只是一個範例！立即填寫問卷，我們會根據您的真實需求，為您找到最合拍的室友。
+                </p>
+                <a
+                  href="https://forms.gle/iuFj9gA97zhynTKm6"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block px-8 py-3 md:px-6 md:py-2.5 bg-orange-300 text-gray-800 rounded-full font-semibold hover:bg-orange-400 transition-all shadow-sm text-base md:text-sm"
+                  style={{ whiteSpace: 'nowrap' }}
+                >
+                  立即填寫問卷，找到真正適合您的室友
+                </a>
+              </div>
+            )}
           </div>
         )}
 
