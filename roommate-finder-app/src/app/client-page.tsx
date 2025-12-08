@@ -63,14 +63,16 @@ export default function ClientPageContent() {
     }
   }, []);
 
-  const handleSearch = () => {
-    if (!searchEmail) return;
+  const handleSearch = (emailToSearch?: string) => {
+    const email = emailToSearch || searchEmail;
+    if (!email) return;
+
     try {
       setIsLoading(true);
       setError(null);
 
       // Special test case for demonstrating noMatches state
-      if (searchEmail.trim().toLowerCase() === 'test.nomatch@test.com') {
+      if (email.trim().toLowerCase() === 'test.nomatch@test.com') {
         console.log('[搜尋調試] 測試 email: test.nomatch@test.com');
         console.log('[搜尋調試] 強制返回 noMatches 狀態');
         setMatchRecommendations([]);
@@ -80,7 +82,7 @@ export default function ClientPageContent() {
       }
 
       // Find user in original data
-      const currentUser = usersData.find(u => u.email === searchEmail.trim());
+      const currentUser = usersData.find(u => u.email === email.trim());
 
       if (!currentUser) {
         setShowNotFoundPopup(true);
@@ -110,7 +112,7 @@ export default function ClientPageContent() {
       matches.sort((a, b) => b.matchScore - a.matchScore);
       const topMatches = matches.slice(0, 5);
 
-      console.log(`[搜尋調試] Email: ${searchEmail.trim()}`);
+      console.log(`[搜尋調試] Email: ${email.trim()}`);
       console.log(`[搜尋調試] 找到的配對數: ${matches.length}`);
       console.log(`[搜尋調試] Top 5 配對數: ${topMatches.length}`);
 
@@ -146,9 +148,9 @@ export default function ClientPageContent() {
     setSearchEmail(DEMO_EMAIL);
     // Scroll to top smoothly
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    // Delay search trigger to let scroll animation complete
+    // Delay search trigger to let scroll animation complete, and pass email directly
     setTimeout(() => {
-      handleSearch();
+      handleSearch(DEMO_EMAIL);
     }, 300);
   };
 
@@ -254,7 +256,7 @@ export default function ClientPageContent() {
               </button>
             )}
             <button
-              onClick={handleSearch}
+              onClick={() => handleSearch()}
               className="absolute right-2 top-2.5 px-5 py-2 bg-orange-300 text-gray-800 rounded-full hover:bg-orange-400 transition-all font-medium text-base md:text-sm"
             >
               查詢
@@ -312,8 +314,10 @@ export default function ClientPageContent() {
         {/* 狀態3：已註冊有配對 - 顯示 Match Mode */}
         {searchState === 'hasMatches' && matchRecommendations && matchRecommendations.length > 0 && (
           <div>
-            <h2 className="text-xl md:text-lg font-bold text-gray-800 mb-4">🎯 你的最佳配對推薦</h2>
-            {matchRecommendations.map((match, index) => (
+            <h2 className="text-xl md:text-lg font-bold text-gray-800 mb-4">
+              {isDemoMode ? '✨ 配對結果示範' : '🎯 你的最佳配對推薦'}
+            </h2>
+            {matchRecommendations.slice(0, isDemoMode ? 2 : 5).map((match, index) => (
               <MatchModeCard key={match.matchId} match={match} rank={index + 1} />
             ))}
 
