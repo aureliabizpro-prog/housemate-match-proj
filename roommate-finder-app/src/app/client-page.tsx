@@ -312,7 +312,7 @@ export default function ClientPageContent() {
 
             {/* Demo Mode CTA - 只在 Demo 模式顯示 */}
             {isDemoMode && (
-              <div className="mt-6 bg-gradient-to-r from-orange-50 to-green-50 rounded-3xl p-8 text-center border-2 border-orange-200">
+              <div className="mt-6 bg-gradient-to-r from-orange-50 to-green-50 rounded-3xl p-6 md:p-8 text-center border-2 border-orange-200">
                 <div className="text-5xl mb-4">💚</div>
                 <h3 className="text-2xl md:text-xl font-bold text-gray-800 mb-6 leading-relaxed">
                   你和好室友的距離，現在只差一步了！
@@ -321,7 +321,7 @@ export default function ClientPageContent() {
                   href="https://forms.gle/iuFj9gA97zhynTKm6"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block px-8 py-4 bg-orange-400 text-white rounded-full font-bold hover:bg-orange-500 transition-all shadow-lg text-lg md:text-base"
+                  className="inline-block px-8 py-3 md:px-6 md:py-2.5 bg-orange-300 text-gray-800 rounded-full font-semibold hover:bg-orange-400 transition-all shadow-sm text-base md:text-sm"
                   style={{ whiteSpace: 'nowrap' }}
                 >
                   1分鐘！勾勒你的室友理想型
@@ -333,7 +333,7 @@ export default function ClientPageContent() {
 
         {/* 狀態2：已註冊但無配對 - 顯示「媒合中」區塊 */}
         {searchState === 'noMatches' && (
-          <div className="bg-white rounded-3xl shadow-md p-8 mb-4 border border-gray-100 text-center">
+          <div className="bg-white rounded-3xl shadow-md p-6 mb-4 border border-gray-100 text-center">
             <div className="text-5xl mb-4">⏳</div>
             <h3 className="text-2xl md:text-xl font-bold text-gray-800 mb-5">配對進行中</h3>
             <p className="text-base md:text-sm text-gray-600 leading-relaxed">
@@ -354,16 +354,16 @@ export default function ClientPageContent() {
 
                 {/* Insert Demo button after 3rd card (index 2) only on first page and initial state */}
                 {index === 2 && searchState === 'initial' && (
-                  <div className="my-6 bg-gradient-to-r from-green-50 to-emerald-50 rounded-3xl p-8 text-center border-2 border-green-200">
+                  <div className="my-6 bg-gradient-to-r from-green-50 to-emerald-50 rounded-3xl p-6 md:p-8 text-center border-2 border-green-200">
                     <div className="text-5xl mb-4">✨</div>
                     <h3 className="text-xl md:text-lg font-bold text-gray-800 mb-5 leading-relaxed">
                       好想看看！配對結果會長怎樣？！
                     </h3>
                     <button
                       onClick={handleDemoClick}
-                      className="inline-flex items-center gap-2 px-8 py-4 bg-green-500 text-white rounded-full font-bold hover:bg-green-600 transition-all shadow-lg text-lg md:text-base"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-green-500 text-white rounded-full font-semibold hover:bg-green-600 transition-all shadow-md text-base md:text-sm"
                     >
-                      <Eye size={24} className="flex-shrink-0" />
+                      <Eye size={20} className="flex-shrink-0" />
                       <span style={{ wordBreak: 'keep-all' }}>讓你偷看一眼</span>
                     </button>
                   </div>
@@ -428,14 +428,14 @@ export default function ClientPageContent() {
 
         {/* CTA for Survey - 只在初始狀態或搜尋失敗時顯示 */}
         {(searchState === 'initial' || searchState === 'notFound') && (
-        <div className="mt-8 bg-orange-50 rounded-xl p-8 text-center shadow-sm border border-orange-100">
+        <div className="mt-8 bg-orange-50 rounded-xl p-6 text-center shadow-sm border border-orange-100">
           <div className="text-5xl mb-4">👥</div>
-          <h3 className="text-2xl md:text-xl font-bold text-gray-800 mb-6 break-keep">已有 {browseUsers.length} 人在找室友</h3>
+          <h3 className="text-2xl md:text-xl font-bold text-gray-800 mb-5 break-keep">已有 {browseUsers.length} 人在找室友</h3>
           <a
             href="https://forms.gle/iuFj9gA97zhynTKm6"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block px-8 py-4 bg-orange-400 text-white rounded-full font-bold hover:bg-orange-500 transition-all shadow-lg text-lg md:text-base"
+            className="inline-block px-8 py-3 md:px-6 md:py-2.5 bg-orange-300 text-gray-800 rounded-full font-semibold hover:bg-orange-400 transition-all shadow-sm text-base md:text-sm"
             style={{ whiteSpace: 'nowrap' }}
           >
             加入配對
@@ -483,7 +483,7 @@ export default function ClientPageContent() {
                 href="https://forms.gle/iuFj9gA97zhynTKm6"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full px-6 py-3 bg-orange-400 text-white rounded-full font-bold hover:bg-orange-500 transition-all text-center text-base"
+                className="block w-full px-6 py-3 bg-orange-300 text-gray-800 rounded-full font-semibold hover:bg-orange-400 transition-all text-center text-base"
               >
                 開始配對
               </a>
