@@ -352,8 +352,8 @@ export default function ClientPageContent() {
               <div key={user.userId}>
                 <BrowseModeCard user={user} />
 
-                {/* Insert Demo button every 10 cards - only in initial state */}
-                {(index + 1) % 10 === 0 && searchState === 'initial' && (
+                {/* Insert Demo button: after 3rd card, then every 10 cards */}
+                {(index === 2 || (index + 1) % 10 === 0) && searchState === 'initial' && (
                   <div className="my-6 bg-gradient-to-r from-green-50 to-emerald-50 rounded-3xl p-6 md:p-8 text-center border-2 border-green-200">
                     <div className="text-5xl mb-4">✨</div>
                     <h3 className="text-xl md:text-lg font-bold text-gray-800 mb-5 leading-relaxed">
@@ -387,28 +387,28 @@ export default function ClientPageContent() {
 
         {/* Why Choose Us - 只在初始狀態或搜尋失敗時顯示 */}
         {(searchState === 'initial' || searchState === 'notFound') && (
-        <div className="mt-8 grid grid-cols-3 gap-2">
-          <div className="bg-orange-50/60 rounded-xl p-3 border border-orange-100/50 text-center">
-            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-2">
-              <span className="text-2xl">🏡</span>
+        <div className="mt-8 grid grid-cols-3 gap-3">
+          <div className="bg-orange-50/60 rounded-xl p-4 border border-orange-100/50 text-center">
+            <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center mx-auto mb-3">
+              <span className="text-3xl">🏡</span>
             </div>
-            <h4 className="text-xs font-bold text-gray-800 mb-1 leading-tight">13 組真實配對成功</h4>
+            <h4 className="text-sm font-bold text-gray-800 mb-1.5 leading-tight">13 組配對成功</h4>
             <p className="text-xs text-gray-600 leading-tight">85% 契合度</p>
           </div>
 
-          <div className="bg-green-50/60 rounded-xl p-3 border border-green-100/50 text-center">
-            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-2">
-              <span className="text-2xl">🌈</span>
+          <div className="bg-green-50/60 rounded-xl p-4 border border-green-100/50 text-center">
+            <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center mx-auto mb-3">
+              <span className="text-3xl">🌈</span>
             </div>
-            <h4 className="text-xs font-bold text-gray-800 mb-1 leading-tight">性別友善</h4>
+            <h4 className="text-sm font-bold text-gray-800 mb-1.5 leading-tight">性別友善</h4>
             <p className="text-xs text-gray-600 leading-tight">尊重認同</p>
           </div>
 
-          <div className="bg-yellow-50/60 rounded-xl p-3 border border-yellow-100/50 text-center">
-            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-2">
-              <span className="text-2xl">✨</span>
+          <div className="bg-yellow-50/60 rounded-xl p-4 border border-yellow-100/50 text-center">
+            <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center mx-auto mb-3">
+              <span className="text-3xl">✨</span>
             </div>
-            <h4 className="text-xs font-bold text-gray-800 mb-1 leading-tight">生活契合優先</h4>
+            <h4 className="text-sm font-bold text-gray-800 mb-1.5 leading-tight">生活契合優先</h4>
             <p className="text-xs text-gray-600 leading-tight">非交友平台</p>
           </div>
         </div>
