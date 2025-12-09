@@ -352,19 +352,19 @@ export default function ClientPageContent() {
               <div key={user.userId}>
                 <BrowseModeCard user={user} />
 
-                {/* Insert Demo button after 3rd card (index 2) only on first page and initial state */}
-                {index === 2 && searchState === 'initial' && (
+                {/* Insert Demo button every 10 cards - only in initial state */}
+                {(index + 1) % 10 === 0 && searchState === 'initial' && (
                   <div className="my-6 bg-gradient-to-r from-green-50 to-emerald-50 rounded-3xl p-6 md:p-8 text-center border-2 border-green-200">
                     <div className="text-5xl mb-4">✨</div>
                     <h3 className="text-xl md:text-lg font-bold text-gray-800 mb-5 leading-relaxed">
-                      好想看看！配對結果會長怎樣？！
+                      看起來你很感興趣？！想給你看點不一樣的
                     </h3>
                     <button
                       onClick={handleDemoClick}
                       className="inline-flex items-center gap-2 px-6 py-3 bg-green-500 text-white rounded-full font-semibold hover:bg-green-600 transition-all shadow-md text-base md:text-sm"
                     >
                       <Eye size={20} className="flex-shrink-0" />
-                      <span style={{ wordBreak: 'keep-all' }}>讓你偷看一眼</span>
+                      <span style={{ wordBreak: 'keep-all' }}>那我就看看吧！</span>
                     </button>
                   </div>
                 )}
@@ -378,7 +378,7 @@ export default function ClientPageContent() {
                   onClick={() => setVisibleCards(prev => prev + 3)}
                   className="inline-block px-8 py-3 bg-gradient-to-r from-orange-100 to-green-100 text-gray-800 rounded-full font-semibold hover:from-orange-200 hover:to-green-200 transition-all shadow-sm border border-orange-200 text-base md:text-sm"
                 >
-                  載入更多室友 ({filteredBrowseUsers.length - visibleCards} 位)
+                  載入更多
                 </button>
               </div>
             )}
@@ -387,41 +387,29 @@ export default function ClientPageContent() {
 
         {/* Why Choose Us - 只在初始狀態或搜尋失敗時顯示 */}
         {(searchState === 'initial' || searchState === 'notFound') && (
-        <div className="mt-8 space-y-3">
-          <div className="bg-orange-50/60 rounded-xl p-5 md:p-4 border border-orange-100/50">
-            <div className="flex items-center">
-              <div className="w-14 h-14 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                <span className="text-3xl md:text-2xl">🏡</span>
-              </div>
-              <div>
-                <h4 className="text-lg md:text-base font-bold text-gray-800 mb-1">13 組真實配對成功</h4>
-                <p className="text-sm md:text-xs text-gray-600">平均契合度 85%，不是隨機配對</p>
-              </div>
+        <div className="mt-8 grid grid-cols-3 gap-2">
+          <div className="bg-orange-50/60 rounded-xl p-3 border border-orange-100/50 text-center">
+            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-2">
+              <span className="text-2xl">🏡</span>
             </div>
+            <h4 className="text-xs font-bold text-gray-800 mb-1 leading-tight">13 組真實配對成功</h4>
+            <p className="text-xs text-gray-600 leading-tight">85% 契合度</p>
           </div>
 
-          <div className="bg-green-50/60 rounded-xl p-5 md:p-4 border border-green-100/50">
-            <div className="flex items-center">
-              <div className="w-14 h-14 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                <span className="text-3xl md:text-2xl">🌈</span>
-              </div>
-              <div>
-                <h4 className="text-lg md:text-base font-bold text-gray-800 mb-1">多元性別友善空間</h4>
-                <p className="text-sm md:text-xs text-gray-600">尊重每個人的性別認同與偏好</p>
-              </div>
+          <div className="bg-green-50/60 rounded-xl p-3 border border-green-100/50 text-center">
+            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-2">
+              <span className="text-2xl">🌈</span>
             </div>
+            <h4 className="text-xs font-bold text-gray-800 mb-1 leading-tight">性別友善</h4>
+            <p className="text-xs text-gray-600 leading-tight">尊重認同</p>
           </div>
 
-          <div className="bg-yellow-50/60 rounded-xl p-5 md:p-4 border border-yellow-100/50">
-            <div className="flex items-center">
-              <div className="w-14 h-14 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                <span className="text-3xl md:text-2xl">✨</span>
-              </div>
-              <div>
-                <h4 className="text-lg md:text-base font-bold text-gray-800 mb-1">重視生活契合，非交友平台</h4>
-                <p className="text-sm md:text-xs text-gray-600">從作息到清潔習慣，找到真正合拍的室友</p>
-              </div>
+          <div className="bg-yellow-50/60 rounded-xl p-3 border border-yellow-100/50 text-center">
+            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-2">
+              <span className="text-2xl">✨</span>
             </div>
+            <h4 className="text-xs font-bold text-gray-800 mb-1 leading-tight">生活契合優先</h4>
+            <p className="text-xs text-gray-600 leading-tight">非交友平台</p>
           </div>
         </div>
         )}
