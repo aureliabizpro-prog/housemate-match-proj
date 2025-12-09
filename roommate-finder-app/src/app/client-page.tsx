@@ -227,7 +227,7 @@ export default function ClientPageContent() {
                     className="inline-block px-6 py-2.5 bg-orange-300 text-gray-800 rounded-full font-semibold hover:bg-orange-400 transition-all shadow-md text-sm"
                     style={{ whiteSpace: 'nowrap' }}
                   >
-                    立即填寫配對問卷
+                    開始配對
                   </a>
                 )}
               </div>
@@ -237,7 +237,7 @@ export default function ClientPageContent() {
 
         {/* Search Bar */}
         <div className="mb-6">
-          <p className="text-base md:text-sm text-gray-600 mb-3 text-center">已填寫問卷？輸入您的 email 查看專屬配對結果</p>
+          <p className="text-base md:text-sm text-gray-600 mb-3 text-center">已填寫資料？輸入 Email 查看配對結果</p>
           <div className="relative">
             <Search className="absolute left-4 top-4 md:top-3.5 text-gray-400" size={22} />
             <input
@@ -295,7 +295,7 @@ export default function ClientPageContent() {
               className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-orange-100 to-green-100 text-gray-700 rounded-full hover:from-orange-200 hover:to-green-200 transition-all font-medium text-base md:text-sm border border-orange-200 shadow-sm mx-auto"
             >
               <ArrowLeft size={18} className="flex-shrink-0" />
-              <span style={{ wordBreak: 'keep-all' }}>返回瀏覽所有室友</span>
+              <span style={{ wordBreak: 'keep-all' }}>瀏覽所有室友</span>
             </button>
           </div>
         )}
@@ -312,22 +312,19 @@ export default function ClientPageContent() {
 
             {/* Demo Mode CTA - 只在 Demo 模式顯示 */}
             {isDemoMode && (
-              <div className="mt-6 bg-gradient-to-r from-orange-50 to-green-50 rounded-3xl p-6 md:p-8 text-center border-2 border-orange-200">
-                <div className="mb-4">
-                  <div className="text-4xl mb-3">✨</div>
-                  <h3 className="text-2xl md:text-xl font-bold text-gray-800 mb-3">看到適合您的配對了嗎？</h3>
-                </div>
-                <p className="text-base md:text-sm text-gray-600 mb-6 leading-relaxed">
-                  這只是一個範例！立即填寫問卷，我們會根據您的真實需求，為您找到最合拍的室友。
-                </p>
+              <div className="mt-6 bg-gradient-to-r from-orange-50 to-green-50 rounded-3xl p-8 text-center border-2 border-orange-200">
+                <div className="text-5xl mb-4">💚</div>
+                <h3 className="text-2xl md:text-xl font-bold text-gray-800 mb-6 leading-relaxed">
+                  你和好室友的距離，現在只差一步了！
+                </h3>
                 <a
                   href="https://forms.gle/iuFj9gA97zhynTKm6"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block px-8 py-3 md:px-6 md:py-2.5 bg-orange-300 text-gray-800 rounded-full font-semibold hover:bg-orange-400 transition-all shadow-sm text-base md:text-sm"
+                  className="inline-block px-8 py-4 bg-orange-400 text-white rounded-full font-bold hover:bg-orange-500 transition-all shadow-lg text-lg md:text-base"
                   style={{ whiteSpace: 'nowrap' }}
                 >
-                  立即填寫問卷，找到真正適合您的室友
+                  1分鐘！勾勒你的室友理想型
                 </a>
               </div>
             )}
@@ -336,16 +333,11 @@ export default function ClientPageContent() {
 
         {/* 狀態2：已註冊但無配對 - 顯示「媒合中」區塊 */}
         {searchState === 'noMatches' && (
-          <div className="bg-white rounded-3xl shadow-md p-6 mb-4 border border-gray-100 text-center">
-            <div className="mb-4">
-              <div className="text-5xl mb-3">🎯</div>
-              <h3 className="text-2xl md:text-xl font-bold text-gray-800 mb-3">您的配對正在進行中！</h3>
-            </div>
-            <p className="text-base md:text-sm text-gray-600 leading-relaxed mb-5">
-              我們正在為您尋找最合適的室友。媒合成功後會立即以 email 通知您，屆時請回到這個頁面查看詳細配對結果。
-            </p>
-            <p className="text-sm text-gray-500">
-              感謝您的耐心等待！💚
+          <div className="bg-white rounded-3xl shadow-md p-8 mb-4 border border-gray-100 text-center">
+            <div className="text-5xl mb-4">⏳</div>
+            <h3 className="text-2xl md:text-xl font-bold text-gray-800 mb-5">配對進行中</h3>
+            <p className="text-base md:text-sm text-gray-600 leading-relaxed">
+              通常我們會在您填寫資料 1-3 天後 email 通知您，屆時請回到這個頁面查看詳細配對結果。
             </p>
           </div>
         )}
@@ -362,22 +354,18 @@ export default function ClientPageContent() {
 
                 {/* Insert Demo button after 3rd card (index 2) only on first page and initial state */}
                 {index === 2 && searchState === 'initial' && (
-                  <div className="my-6 bg-gradient-to-r from-green-50 to-emerald-50 rounded-3xl p-6 md:p-8 text-center border-2 border-green-200">
-                    <div className="mb-4">
-                      <div className="text-4xl mb-3">👀</div>
-                      <h3 className="text-2xl md:text-xl font-bold text-gray-800 mb-3">想先看看配對結果長什麼樣？</h3>
-                    </div>
-                    <p className="text-base md:text-sm text-gray-600 mb-6 leading-relaxed">
-                      還沒填寫問卷？沒關係！點擊下方按鈕體驗我們的配對系統，看看我們如何為您找到最合拍的室友。
-                    </p>
+                  <div className="my-6 bg-gradient-to-r from-green-50 to-emerald-50 rounded-3xl p-8 text-center border-2 border-green-200">
+                    <div className="text-5xl mb-4">✨</div>
+                    <h3 className="text-xl md:text-lg font-bold text-gray-800 mb-5 leading-relaxed">
+                      好想看看！配對結果會長怎樣？！
+                    </h3>
                     <button
                       onClick={handleDemoClick}
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-green-500 text-white rounded-full font-semibold hover:bg-green-600 transition-all shadow-md text-base md:text-sm"
+                      className="inline-flex items-center gap-2 px-8 py-4 bg-green-500 text-white rounded-full font-bold hover:bg-green-600 transition-all shadow-lg text-lg md:text-base"
                     >
-                      <Eye size={20} className="flex-shrink-0" />
-                      <span style={{ wordBreak: 'keep-all' }}>體驗配對功能</span>
+                      <Eye size={24} className="flex-shrink-0" />
+                      <span style={{ wordBreak: 'keep-all' }}>讓你偷看一眼</span>
                     </button>
-                    <p className="text-xs text-gray-500 mt-3">查看示範配對結果，完全免費</p>
                   </div>
                 )}
               </div>
@@ -440,19 +428,17 @@ export default function ClientPageContent() {
 
         {/* CTA for Survey - 只在初始狀態或搜尋失敗時顯示 */}
         {(searchState === 'initial' || searchState === 'notFound') && (
-        <div className="mt-8 bg-orange-50 rounded-xl p-6 text-center shadow-sm border border-orange-100">
-          <h3 className="text-2xl md:text-xl font-bold text-gray-800 mb-3 break-keep">已有 {browseUsers.length} 人在找室友</h3>
-          <p className="text-base md:text-sm text-gray-600 mb-6 md:mb-5 leading-relaxed break-keep">
-            你也想找到理想的合租夥伴嗎？立即填寫<span style={{ whiteSpace: 'nowrap' }}>問卷</span>，讓我們為你推薦！
-          </p>
+        <div className="mt-8 bg-orange-50 rounded-xl p-8 text-center shadow-sm border border-orange-100">
+          <div className="text-5xl mb-4">👥</div>
+          <h3 className="text-2xl md:text-xl font-bold text-gray-800 mb-6 break-keep">已有 {browseUsers.length} 人在找室友</h3>
           <a
             href="https://forms.gle/iuFj9gA97zhynTKm6"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block px-8 py-3 md:px-6 md:py-2.5 bg-orange-300 text-gray-800 rounded-full font-semibold hover:bg-orange-400 transition-all shadow-sm text-base md:text-sm"
+            className="inline-block px-8 py-4 bg-orange-400 text-white rounded-full font-bold hover:bg-orange-500 transition-all shadow-lg text-lg md:text-base"
             style={{ whiteSpace: 'nowrap' }}
           >
-            立即填寫問卷
+            加入配對
           </a>
         </div>
         )}
@@ -474,18 +460,18 @@ export default function ClientPageContent() {
                 <div className="flex items-start gap-3">
                   <span className="text-2xl flex-shrink-0">⏳</span>
                   <div className="flex-1 min-w-0">
-                    <p className="font-bold text-gray-800 mb-1.5 text-base">如果您剛提交問卷</p>
-                    <p className="text-sm text-gray-700 leading-relaxed">我們正在處理中（約需 1-3 天），請耐心等待 email 通知。</p>
+                    <p className="font-bold text-gray-800 mb-1.5 text-base">如果您剛提交資料</p>
+                    <p className="text-sm text-gray-700 leading-relaxed">約需 1-3 天處理，請耐心等待 email 通知</p>
                   </div>
                 </div>
               </div>
 
               <div className="bg-green-50/80 rounded-xl p-4 border border-green-200">
                 <div className="flex items-start gap-3">
-                  <span className="text-2xl flex-shrink-0">✍️</span>
+                  <span className="text-2xl flex-shrink-0">✨</span>
                   <div className="flex-1 min-w-0">
-                    <p className="font-bold text-gray-800 mb-1.5 text-base">如果您還未填寫過資料</p>
-                    <p className="text-sm text-gray-700 leading-relaxed">請點擊下方按鈕填寫問卷，找到理想室友！</p>
+                    <p className="font-bold text-gray-800 mb-1.5 text-base">如果您還未填寫資料</p>
+                    <p className="text-sm text-gray-700 leading-relaxed">1 分鐘勾勒理想室友，立即開始配對</p>
                   </div>
                 </div>
               </div>
@@ -497,9 +483,9 @@ export default function ClientPageContent() {
                 href="https://forms.gle/iuFj9gA97zhynTKm6"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full px-6 py-3 bg-orange-300 text-gray-800 rounded-full font-semibold hover:bg-orange-400 transition-all text-center text-base"
+                className="block w-full px-6 py-3 bg-orange-400 text-white rounded-full font-bold hover:bg-orange-500 transition-all text-center text-base"
               >
-                立即填寫配對問卷
+                開始配對
               </a>
               <button
                 onClick={() => setShowNotFoundPopup(false)}
