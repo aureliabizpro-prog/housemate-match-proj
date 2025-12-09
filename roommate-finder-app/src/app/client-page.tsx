@@ -27,6 +27,7 @@ export default function ClientPageContent() {
   const [error, setError] = useState<string | null>(null);
   const [showNotFoundPopup, setShowNotFoundPopup] = useState(false);
   const [searchState, setSearchState] = useState<'initial' | 'notFound' | 'noMatches' | 'hasMatches'>('initial');
+  const [visibleCards, setVisibleCards] = useState(3); // Pagination: start with 3 cards
 
   const slides = [
     {
@@ -140,6 +141,7 @@ export default function ClientPageContent() {
     setSearchState('initial');
     setMatchRecommendations(null);
     setShowNotFoundPopup(false);
+    setVisibleCards(3); // Reset pagination to first page
     // Scroll to top smoothly
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -283,19 +285,6 @@ export default function ClientPageContent() {
             </div>
           )}
 
-          {/* Demo Button - 只在初始狀態顯示 */}
-          {searchState === 'initial' && (
-            <div className="mt-4 text-center">
-              <button
-                onClick={handleDemoClick}
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-green-50 text-green-600 rounded-full font-medium hover:bg-green-100 transition-all border border-green-200"
-              >
-                <Eye size={18} className="flex-shrink-0" />
-                <span style={{ wordBreak: 'keep-all' }}>體驗配對功能</span>
-              </button>
-              <p className="text-xs text-gray-500 mt-2">看看配對結果長什麼樣</p>
-            </div>
-          )}
         </div>
 
         {/* 返回瀏覽按鈕 - 在有搜尋結果時顯示 */}
@@ -365,9 +354,46 @@ export default function ClientPageContent() {
         {(searchState === 'initial' || searchState === 'notFound') && (
           <div>
             <h2 className="text-xl md:text-lg font-bold text-gray-800 mb-4">👥 尋找室友中</h2>
-            {filteredBrowseUsers.map(user => (
-              <BrowseModeCard key={user.userId} user={user} />
+
+            {/* Display visible cards with Demo button inserted after 3rd card */}
+            {filteredBrowseUsers.slice(0, visibleCards).map((user, index) => (
+              <div key={user.userId}>
+                <BrowseModeCard user={user} />
+
+                {/* Insert Demo button after 3rd card (index 2) only on first page and initial state */}
+                {index === 2 && searchState === 'initial' && (
+                  <div className="my-6 bg-gradient-to-r from-green-50 to-emerald-50 rounded-3xl p-6 md:p-8 text-center border-2 border-green-200">
+                    <div className="mb-4">
+                      <div className="text-4xl mb-3">👀</div>
+                      <h3 className="text-2xl md:text-xl font-bold text-gray-800 mb-3">想先看看配對結果長什麼樣？</h3>
+                    </div>
+                    <p className="text-base md:text-sm text-gray-600 mb-6 leading-relaxed">
+                      還沒填寫問卷？沒關係！點擊下方按鈕體驗我們的配對系統，看看我們如何為您找到最合拍的室友。
+                    </p>
+                    <button
+                      onClick={handleDemoClick}
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-green-500 text-white rounded-full font-semibold hover:bg-green-600 transition-all shadow-md text-base md:text-sm"
+                    >
+                      <Eye size={20} className="flex-shrink-0" />
+                      <span style={{ wordBreak: 'keep-all' }}>體驗配對功能</span>
+                    </button>
+                    <p className="text-xs text-gray-500 mt-3">查看示範配對結果，完全免費</p>
+                  </div>
+                )}
+              </div>
             ))}
+
+            {/* Load More Button */}
+            {visibleCards < filteredBrowseUsers.length && (
+              <div className="mt-6 text-center">
+                <button
+                  onClick={() => setVisibleCards(prev => prev + 3)}
+                  className="inline-block px-8 py-3 bg-gradient-to-r from-orange-100 to-green-100 text-gray-800 rounded-full font-semibold hover:from-orange-200 hover:to-green-200 transition-all shadow-sm border border-orange-200 text-base md:text-sm"
+                >
+                  載入更多室友 ({filteredBrowseUsers.length - visibleCards} 位)
+                </button>
+              </div>
+            )}
           </div>
         )}
 
